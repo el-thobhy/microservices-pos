@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  user.graphql:
+    image: ${DOCKER_REGISTRY-}usergraphql
+    build:
+      context: .
+      dockerfile: User GraphQL/Dockerfile
+  mssql:
+    image: mcr.microsoft.com/mssql/server
+    container_name: mssql-bekal
+    environment: 
+      - MSSQL_SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=y
+    ports: 
+      - "1433:1433"
