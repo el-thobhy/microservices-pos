@@ -1,4 +1,4 @@
-﻿namespace Framework.Auth
+﻿namespace Store.Domain
 {
     public class Class1
     {

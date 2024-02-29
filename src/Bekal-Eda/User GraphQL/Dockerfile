@@ -8,6 +8,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["User GraphQL/User.GraphQL.csproj", "User GraphQL/"]
 COPY ["UserDomain/User.Domain.csproj", "UserDomain/"]
+COPY ["Framework.Auth/Framework.Auth.csproj", "Framework.Auth/"]
+COPY ["Framework.Core/Framework.Core.csproj", "Framework.Core/"]
 RUN dotnet restore "User GraphQL/User.GraphQL.csproj"
 COPY . .
 WORKDIR "/src/User GraphQL"

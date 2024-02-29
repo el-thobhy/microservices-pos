@@ -20,9 +20,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Framework.Auth\Framework.Auth.csproj" />
-    <ProjectReference Include="..\Framework.Core\Framework.Core.csproj" />
-  </ItemGroup>
-
 </Project>
