@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Framework.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using User.Domain.Dtos;
+using User.Domain.Entities;
 using User.Domain.Repositories;
 
 namespace User.Domain.Services
@@ -24,9 +26,19 @@ namespace User.Domain.Services
             _repository= repository;
             _mapper= mapper;
         }
-        public Task<UserDto> AddUser(UserDto userDto)
+        public async Task<UserDto> AddUser(UserDto dto)
         {
-            throw new NotImplementedException();
+            dto.Password = Encryption.HashSha256(dto.Password);
+            var dtoToEntity = _mapper.Map<UserEntity>(dto);
+            var entity = await _repository.Add(dtoToEntity);
+            var result = await _repository.SaveChangeAsync();
+
+            //event driven, Event bus
+            if (result > 0)
+            {
+                return _mapper.Map<UserDto>(entity);
+            }
+            return new UserDto();
         }
 
         public async Task<LoginDto> Login(string username, string password)

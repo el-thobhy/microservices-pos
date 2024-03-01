@@ -2,6 +2,8 @@ using User.Domain;
 using User.Domain.MapProfile;
 using User.Domain.Repositories;
 using User.Domain.Services;
+using User_GraphQL.Schema.Mutations;
+using User_GraphQL.Schema.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +16,22 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile<EntityToDtoProfile>();
 });
 
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services
+    .AddScoped<Query>()
+    .AddScoped<AuthQuery>()
+    .AddScoped<Mutation>()
+    .AddScoped<UserMutation>()
     .AddScoped<IUserRepository, UserRepository>()
-    .AddScoped<IUserService, UserServices>();
+    .AddScoped<IUserService, UserServices>()
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddTypeExtension<AuthQuery>()
+    .AddMutationType<Mutation>()
+    .AddTypeExtension<UserMutation>(); 
 
 
 
@@ -36,5 +48,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGraphQL();
 
 app.Run();

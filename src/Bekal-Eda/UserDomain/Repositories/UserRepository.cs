@@ -27,7 +27,8 @@ namespace User.Domain.Repositories
         }
         public async Task<UserEntity> Add(UserEntity entity)
         {
-            _context.Set<UserEntity>().Add(entity);
+            //_context.Set<UserEntity>().Add(entity);
+            _context.Entry(entity).State = EntityState.Added;
             return entity;
         }
 

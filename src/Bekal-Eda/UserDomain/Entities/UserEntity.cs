@@ -28,11 +28,15 @@ namespace User.Domain.Entities
             builder.Property(x => x.Id).IsRequired();
 
             builder.Property(x => x.UserName).HasMaxLength(50).IsRequired();
+            builder.HasIndex(x => x.UserName).IsUnique();
+
             builder.Property(x => x.Password).HasMaxLength(100).IsRequired();
             builder.Property(x => x.FirstName).HasMaxLength(50).IsRequired();
             builder.Property(x => x.LastName).HasMaxLength(50).IsRequired(false);
 
             builder.Property(x => x.Email).HasMaxLength(100).IsRequired();
+            builder.HasIndex(x => x.Email).IsUnique();
+
             builder.Property(x => x.Type).IsRequired();
             builder.Property(x => x.Status).IsRequired();
         }
