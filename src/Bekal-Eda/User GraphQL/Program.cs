@@ -23,6 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddScoped<Query>()
     .AddScoped<AuthQuery>()
+    .AddScoped<UserQuery>()
     .AddScoped<Mutation>()
     .AddScoped<UserMutation>()
     .AddScoped<IUserRepository, UserRepository>()
@@ -30,6 +31,7 @@ builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
     .AddTypeExtension<AuthQuery>()
+    .AddTypeExtension<UserQuery>()
     .AddMutationType<Mutation>()
     .AddTypeExtension<UserMutation>(); 
 

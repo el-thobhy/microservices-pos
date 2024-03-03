@@ -22,6 +22,8 @@ namespace User_GraphQL.Schema.Queries
             return "Hello GraphQL";
         }
 
+
+
         public async Task<LoginDto> LoginAsync(string username, string password)
         {
             LoginDto result = await _userService.Login(username, password);

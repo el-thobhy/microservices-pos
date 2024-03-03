@@ -13,6 +13,8 @@ namespace User.Domain.Services
 {
     public interface IUserService
     {
+
+        Task<IEnumerable<UserDto>> GetAllUsers();
         Task<LoginDto> Login(string username, string password);
         Task<UserDto> AddUser(UserDto userDto);
     }
@@ -51,6 +53,11 @@ namespace User.Domain.Services
                 return dto;
             }
             return null;
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        {
+            return _mapper.Map<IEnumerable<UserDto>>( await _repository.GetAll());
         }
     }
 

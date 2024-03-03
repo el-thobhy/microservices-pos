@@ -12,6 +12,7 @@ namespace User.Domain.Repositories
 
     public interface IUserRepository
     {
+        Task<IEnumerable<UserEntity>> GetAll();
         Task<UserEntity> Login(string username, string password);
         Task<UserEntity> Add(UserEntity entity);
         Task<int> SaveChangeAsync(CancellationToken cancellationToken = default);
@@ -30,6 +31,11 @@ namespace User.Domain.Repositories
             //_context.Set<UserEntity>().Add(entity);
             _context.Entry(entity).State = EntityState.Added;
             return entity;
+        }
+
+        public async Task<IEnumerable<UserEntity>> GetAll()
+        {
+            return await _context.Set<UserEntity>().ToListAsync();
         }
 
         public async Task<UserEntity> Login(string username, string password)
