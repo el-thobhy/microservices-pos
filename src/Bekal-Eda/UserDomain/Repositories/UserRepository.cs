@@ -49,5 +49,20 @@ namespace User.Domain.Repositories
         {
             return await _context.SaveChangesAsync(cancellationToken);
         }
+
+        //fungsi dispose untuk clear sampah yang ada, GC itu Garbage Collector
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _context.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

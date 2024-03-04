@@ -4,6 +4,7 @@ using LookUp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LookUp.Domain.Migrations
 {
     [DbContext(typeof(LookUpDbContext))]
-    partial class LookUpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240304062848_addModifiedOnAndBy")]
+    partial class addModifiedOnAndBy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,10 +31,10 @@ namespace LookUp.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
@@ -47,15 +50,13 @@ namespace LookUp.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Unit")
-                        .IsUnique();
-
                     b.ToTable("Attributes", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("56350731-08ca-48b4-a14f-c874ce1490ce"),
+                            Id = new Guid("661d80dc-106f-45a2-b94b-350effe7ff4e"),
+                            ModifiedOn = new DateTime(2024, 3, 4, 13, 28, 48, 466, DateTimeKind.Local).AddTicks(5249),
                             Status = 0,
                             Type = 0,
                             Unit = "Tes1"

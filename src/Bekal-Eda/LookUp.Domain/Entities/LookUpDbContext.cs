@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Framework.Core.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace LookUp.Domain.Entities
                 {
                     Id = Guid.NewGuid(),
                     Type = AttributeTypeEnum.Text,
-                    Status = LookUpStatusEnum.Active,
+                    Status = RecordStatusEnum.Active,
                     Unit = "Tes1"
                 }
                 );

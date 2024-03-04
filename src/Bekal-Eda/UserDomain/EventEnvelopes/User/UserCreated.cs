@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Framework.Core.Enums;
 
 namespace User.Domain.EventEnvelopes.User
 {
@@ -20,6 +16,6 @@ namespace User.Domain.EventEnvelopes.User
         string firstName,
         string lastName,
         string email,
-        RecordStatusEnum status) => new(id, username, firstName, lastName,email, status);
+        RecordStatusEnum status) => new(id, username, firstName, lastName, email, status);
     }
 }

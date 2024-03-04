@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace LookUp.Domain.EventEnvelopes.Attributes
 {
-    public record AttributeCreated(
-        Guid Id, 
-        AttributeTypeEnum Type, 
-        string Unit, 
+    public record AttributeUpdated(
+        Guid Id,
+        AttributeTypeEnum Type,
+        string Unit,
         RecordStatusEnum Status)
     {
-        public static AttributeCreated Create(
+        public static AttributeUpdated Updated(
             Guid id,
             AttributeTypeEnum type,
             string unit,

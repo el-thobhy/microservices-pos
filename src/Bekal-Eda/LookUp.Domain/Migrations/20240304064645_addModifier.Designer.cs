@@ -4,6 +4,7 @@ using LookUp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LookUp.Domain.Migrations
 {
     [DbContext(typeof(LookUpDbContext))]
-    partial class LookUpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240304064645_addModifier")]
+    partial class addModifier
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,15 +50,12 @@ namespace LookUp.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Unit")
-                        .IsUnique();
-
                     b.ToTable("Attributes", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("56350731-08ca-48b4-a14f-c874ce1490ce"),
+                            Id = new Guid("d13aca09-a4b5-4093-8c77-506d14264df5"),
                             Status = 0,
                             Type = 0,
                             Unit = "Tes1"

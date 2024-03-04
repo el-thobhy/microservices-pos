@@ -13,8 +13,8 @@ namespace LookUp.Domain.MapProfile
     {
         public EntityToDtoProfile(): base("Entity To Dto Profile")
         {
-            CreateMap<AttributesEntity, AttributesDto>();
-            CreateMap<AttributesDto, AttributesEntity>();
+            CreateMap<AttributesEntity, AttributeDto>();
+            CreateMap<AttributeDto, AttributesEntity>();
         }
     }
 }

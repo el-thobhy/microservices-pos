@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Framework.Core.Entity;
+using Framework.Core.Enums;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace User.Domain.Entities
 {
-    public class UserEntity
+    public class UserEntity: BaseEntity
     {
         public Guid Id { get; set; }
 
@@ -15,7 +17,6 @@ namespace User.Domain.Entities
 
         public UserTypeEnum Type { get; set; } = UserTypeEnum.Customer;
         public RecordStatusEnum Status { get; set; } = RecordStatusEnum.Inactive;
-        public DateTime Modified { get; set; } = DateTime.Now;
     }
 
     public class UserConfiguration : IEntityTypeConfiguration<UserEntity>

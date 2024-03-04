@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace LookUp.Domain
+namespace Framework.Core.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum AttributeTypeEnum
@@ -10,10 +10,18 @@ namespace LookUp.Domain
         Decimal
     }
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum LookUpStatusEnum
+    public enum RecordStatusEnum
     {
         Active,
         Inactive,
         Removed
+    }
+
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum UserTypeEnum
+    {
+        Customer,
+        Administrator
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Framework.Auth;
+using Framework.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace User.Domain.Entities
                     Password = Encryption.HashSha256("Admin1234!"),
                     FirstName = "Super",
                     LastName = "User",
-                    Modified = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
                     Status = RecordStatusEnum.Active,
                     Type = UserTypeEnum.Administrator
                 }

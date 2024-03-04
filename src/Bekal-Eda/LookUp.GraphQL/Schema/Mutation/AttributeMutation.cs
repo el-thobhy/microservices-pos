@@ -6,16 +6,20 @@ namespace LookUp.GraphQL.Schema.Mutation
     [ExtendObjectType(typeof(Mutation))]
     public class AttributeMutation
     {
-        private readonly ILookUpService _service;
-        public AttributeMutation(ILookUpService service)
+        private readonly IAttributeService _service;
+        public AttributeMutation(IAttributeService service)
         {
             _service = service;
         }
 
-        public async Task<AttributesDto> AddAttributeAsync(AttributesDto dto)
+        public async Task<AttributeDto> AddAttributeAsync(AttributeDto dto)
         {
-            var result = await _service.AddAttributes(dto);
+            var result = await _service.AddAttribute(dto);
             return result;
+        }
+        public async Task<AttributeDto> Update(AttributeDto dto)
+        {
+            return await _service.UpdateAttributes(dto);
         }
     }
 }
