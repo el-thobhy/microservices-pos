@@ -1,6 +1,7 @@
 ﻿using Confluent.Kafka;
 using Framework.Core.Event;
 using Framework.Core.Event.External;
+using Framework.Core.Serialization.Newtonsoft;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -29,8 +30,8 @@ namespace Framework.Kafka.Producers
                 new Message<string, string>
                 {
                     Key = @event.Data.GetType().Name,
-                    //Value = @event.
-                });
+                    Value = @event.ToJson()
+                }, ct).ConfigureAwait(false);
             }
             catch (Exception e)
             {

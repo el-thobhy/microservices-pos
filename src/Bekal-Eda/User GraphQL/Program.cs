@@ -1,3 +1,4 @@
+using Framework.Kafka;
 using User.Domain;
 using User.Domain.MapProfile;
 using User.Domain.Repositories;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDomainContext(builder.Configuration);
+builder.Services.AddKafkaProducer();
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(config =>
