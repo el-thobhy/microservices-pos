@@ -8,7 +8,7 @@ namespace LookUp.Domain.Dtos
 {
     public class AttributesDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public AttributeTypeEnum Type { get; set; } = AttributeTypeEnum.Text;
         public string Unit { get; set; } = default!;
         public LookUpStatusEnum Status { get; set; } = LookUpStatusEnum.Inactive;

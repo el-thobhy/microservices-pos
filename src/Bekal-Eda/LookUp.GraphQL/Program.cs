@@ -1,4 +1,9 @@
+using Framework.Kafka;
 using LookUp.Domain.MapProfile;
+using LookUp.Domain.Repositories;
+using LookUp.Domain.Services;
+using LookUp.GraphQL.Schema.Mutation;
+using LookUp.GraphQL.Schema.Query;
 using User.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDomainContext(builder.Configuration);
+builder.Services.AddKafkaProducer();
+
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<EntityToDtoProfile>();
@@ -15,6 +22,18 @@ builder.Services.AddAutoMapper(config =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services
+    .AddScoped<Query>()
+    .AddScoped<AttributeQuery>()
+    .AddScoped<Mutation>()
+    .AddScoped<AttributeMutation>()
+    .AddScoped<ILookUpReposiotories, LookUpRepositories>()
+    .AddScoped<ILookUpService, AttributesServices>()
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddTypeExtension<AttributeQuery>()
+    .AddMutationType<Mutation>()
+    .AddTypeExtension<AttributeMutation>();
 
 var app = builder.Build();
 
@@ -30,5 +49,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGraphQL();
 
 app.Run();
