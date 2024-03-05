@@ -1,8 +1,19 @@
+using Framework.Core.Event;
+using Framework.Kafka;
+using Store.Domain;
+using Store.Domain.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDomainContext(builder.Configuration);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddStore();
+builder.Services.AddEventBus();
+builder.Services.AddKafkaProducer();
+builder.Services.AddKafkaConsumer();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
