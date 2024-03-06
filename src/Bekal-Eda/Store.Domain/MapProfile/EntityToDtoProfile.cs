@@ -15,6 +15,7 @@ namespace Store.Domain.MapProfile
         {
             CreateMap<CategoryEntity, CategoryDto>();
             CreateMap<CategoryDto, CategoryEntity>();
+            CreateMap<CategoryInputDto, CategoryEntity>();
             CreateMap<CategoryStatusDto, CategoryEntity>();
 
 
@@ -25,6 +26,9 @@ namespace Store.Domain.MapProfile
             CreateMap<ProductPriceVolumeChangeDto, ProductEntity>();
             CreateMap<ProductSoldStockChangeDto, ProductEntity>();
             CreateMap<ProductStatusChangeDto, ProductEntity>();
+
+            CreateMap<AttributesEntity, AttributeDto>();
+            CreateMap<ProductInputDto, ProductEntity>();
 
         }
     }

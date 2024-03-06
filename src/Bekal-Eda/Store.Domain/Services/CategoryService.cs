@@ -16,10 +16,10 @@ namespace Store.Domain.Services
     public interface ICategoryService
     {
         Task<IEnumerable<CategoryDto>> GetAlls();
-        Task<CategoryDto> Add(CategoryDto dto);
-        Task<bool> Updates(CategoryDto dto);
+        Task<CategoryDto> Add(CategoryInputDto dto);
+        Task<CategoryDto> Updates(CategoryInputDto dto);
         Task<CategoryDto> GetById(Guid id);
-        Task<bool> ChangeStatus(CategoryStatusDto dto);
+        Task<CategoryDto> ChangeStatus(CategoryStatusDto dto);
     }
     public class CategoryService: ICategoryService
     {
@@ -33,7 +33,7 @@ namespace Store.Domain.Services
             _externalEventProducer = externalEventProducer;
         }
 
-        public async Task<CategoryDto> Add(CategoryDto dto)
+        public async Task<CategoryDto> Add(CategoryInputDto dto)
         {
             if (dto != null)
             {
@@ -56,7 +56,7 @@ namespace Store.Domain.Services
             return new CategoryDto();
         }
 
-        public async Task<bool> ChangeStatus(CategoryStatusDto dto)
+        public async Task<CategoryDto> ChangeStatus(CategoryStatusDto dto)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Store.Domain.Services
                                     )
                                 );
                             await _externalEventProducer.Publish(externalEvent, new CancellationToken());
-                            return true;
+                            return _mapper.Map<CategoryDto>(entity);
                         }
                     }
 
@@ -89,7 +89,7 @@ namespace Store.Domain.Services
                 Console.WriteLine($"Error: {e.Message}");
             }
 
-            return false;
+            return new CategoryDto();
         }
 
         public async Task<IEnumerable<CategoryDto>> GetAlls()
@@ -103,7 +103,7 @@ namespace Store.Domain.Services
             return result;
         }
 
-        public async Task<bool> Updates(CategoryDto dto)
+        public async Task<CategoryDto> Updates(CategoryInputDto dto)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace Store.Domain.Services
                     var exist = await _repository.GetById((Guid)dto.Id);
                     if (exist != null)
                     {
-                        var dtoToEntity = _mapper.Map<CategoryDto, CategoryEntity>(dto, exist);
+                        var dtoToEntity = _mapper.Map<CategoryInputDto, CategoryEntity>(dto, exist);
                         dtoToEntity.ModifiedDate = DateTime.Now;
                         var entity = await _repository.Update(dtoToEntity);
                         var result = await _repository.SaveChangeAsync();
@@ -126,7 +126,7 @@ namespace Store.Domain.Services
                                     )
                                 );
                             await _externalEventProducer.Publish(externalEvent, new CancellationToken());
-                            return true;
+                            return _mapper.Map<CategoryDto>(entity);
                         }
                     }
 
@@ -137,7 +137,7 @@ namespace Store.Domain.Services
                 Console.WriteLine($"Error: {e.Message}");
             }
 
-            return false;
+            return new CategoryDto();
         }
     }
 }

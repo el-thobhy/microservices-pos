@@ -9,6 +9,22 @@ namespace Store.Domain.Dtos
 {
     public class ProductDto
     {
+        public Guid Id { get; set; }
+        public Guid CategoryId { get; set; }
+        public Guid AttributeId { get; set; }
+        public string Sku { get; set; } = default!;
+        public string Name { get; set; } = default!;
+        public string Description { get; set; } = default!;
+        public decimal Price { get; set; } = default!;
+        public decimal Volume { get; set; } = default!;
+        public int Sold { get; set; } = default!;
+        public int Stock { get; set; } = default!;
+        public CategoryDto CategoryDto { get; set; } = default!;
+        public AttributeDto AttributeDto { get; set; } = default!;
+        public RecordStatusEnum Status { get; set; } = RecordStatusEnum.Inactive;
+    }
+    public class ProductInputDto
+    {
         public Guid CategoryId { get; set; }
         public Guid AttributeId { get; set; }
         public string Sku { get; set; } = default!;

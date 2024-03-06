@@ -11,17 +11,17 @@ namespace Store.GraphQL.Schema.Mutation
         {
             _service = service;
         }
-        public async Task<CategoryDto> AddAsync(CategoryDto dto)
+        public async Task<CategoryDto> AddAsync(CategoryInputDto dto)
         {
             var result = await _service.Add(dto);
             return result;
         }
-        public async Task<CategoryDto> Update(CategoryDto dto)
+        public async Task<CategoryDto> Update(CategoryInputDto dto)
         {
             try
             {
                 var result = await _service.Updates(dto);
-                if (result) return dto;
+                if (result != null) return result;
             }
             catch (Exception e)
             {
@@ -30,12 +30,12 @@ namespace Store.GraphQL.Schema.Mutation
             }
             return null;
         }
-        public async Task<CategoryStatusDto> ChangeStatus(CategoryStatusDto dto)
+        public async Task<CategoryDto> ChangeStatus(CategoryStatusDto dto)
         {
             try
             {
                 var result = await _service.ChangeStatus(dto);
-                if (result) return dto;
+                if (result != null) return result;
             }
             catch (Exception e)
             {
