@@ -17,9 +17,33 @@ namespace LookUp.GraphQL.Schema.Mutation
             var result = await _service.AddAttribute(dto);
             return result;
         }
-        public async Task<AttributeDto> Update(AttributeDto dto)
+        public async Task<AttributeExceptStatusDto> Update(AttributeExceptStatusDto dto)
         {
-            return await _service.UpdateAttributes(dto);
+            try
+            {
+                var result = await _service.UpdateAttributes(dto);
+                if (result) return dto;
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync($"Error: {e.Message}");
+                throw;
+            }
+            return null;
+        }
+        public async Task<AttributeStatusDto> ChangeStatus(AttributeStatusDto dto)
+        {
+            try
+            {
+                var result = await _service.ChangeStatus(dto);
+                if (result) return dto;
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync($"Error: {e.Message}");
+                throw;
+            }
+            return null;
         }
     }
 }

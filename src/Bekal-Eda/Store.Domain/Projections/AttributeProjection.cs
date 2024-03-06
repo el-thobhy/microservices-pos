@@ -15,9 +15,12 @@ namespace Store.Domain.Projections
     (
         Guid? Id,
         AttributeTypeEnum Type,
-        string Unit,
-        RecordStatusEnum Status
+        string Unit
     );
+    public record AttributeStatusChanged(
+       Guid? Id,
+       RecordStatusEnum Status
+       );
 
     public class AttributeProjection
     {
@@ -40,19 +43,50 @@ namespace Store.Domain.Projections
         }
         public static bool HandleUdpdate(EventEnvelope<AttributeUpdated> eventEnvelope)
         {
-            var (id, type, unit, status) = eventEnvelope.Data;
-            using (var context = new StoreDbContext(StoreDbContext.OnConfigure()))
+            try
             {
-                
-                AttributesEntity? entity = context.Attributes.Where(a => a.Id == id).FirstOrDefault();
-                if (entity != null)
+                var (id, type, unit) = eventEnvelope.Data;
+                using (var context = new StoreDbContext(StoreDbContext.OnConfigure()))
                 {
-                    entity.Id = (Guid)id;
-                    entity.Type = type;
-                    entity.Unit = unit;
-                    entity.Status = status;
+                
+                    AttributesEntity? entity = context.Set<AttributesEntity>().Find(id);
+                    if (entity != null)
+                    {
+                        entity.Type = type;
+                        entity.Unit = unit;
+                    }
+                    context.Update(entity);
+                    context.SaveChanges();
                 }
-                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+                throw;
+            }
+            return true;
+        }
+        public static bool HandleChangeStatus(EventEnvelope<AttributeStatusChanged> eventEnvelope)
+        {
+            try
+            {
+                var (id, status) = eventEnvelope.Data;
+                using (var context = new StoreDbContext(StoreDbContext.OnConfigure()))
+                {
+
+                    AttributesEntity? entity = context.Set<AttributesEntity>().Find(id);
+                    if (entity != null)
+                    {
+                        entity.Status = status;
+                    }
+                    context.Update(entity);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+                throw;
             }
             return true;
         }

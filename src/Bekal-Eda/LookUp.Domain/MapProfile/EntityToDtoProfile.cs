@@ -15,6 +15,8 @@ namespace LookUp.Domain.MapProfile
         {
             CreateMap<AttributesEntity, AttributeDto>();
             CreateMap<AttributeDto, AttributesEntity>();
+            CreateMap<AttributeExceptStatusDto, AttributesEntity>();
+            CreateMap<AttributeStatusDto, AttributesEntity>();
         }
     }
 }

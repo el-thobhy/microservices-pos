@@ -11,6 +11,7 @@ builder.Services.AddDomainContext(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddStore();
 builder.Services.UpdateStoreAttribute();
+builder.Services.ChangeStatusAttribute();
 builder.Services.AddEventBus();
 builder.Services.AddKafkaProducer();
 builder.Services.AddKafkaConsumer();

@@ -14,4 +14,15 @@ namespace LookUp.Domain.Dtos
         public string Unit { get; set; } = default!;
         public RecordStatusEnum Status { get; set; } = RecordStatusEnum.Inactive;
     }
+    public class AttributeExceptStatusDto
+    {
+        public Guid? Id { get; set; }
+        public AttributeTypeEnum Type { get; set; } = AttributeTypeEnum.Text;
+        public string Unit { get; set; } = default!;
+    }
+    public class AttributeStatusDto
+    {
+        public Guid? Id { get; set; }
+        public RecordStatusEnum Status { get; set; } = RecordStatusEnum.Inactive;
+    }
 }

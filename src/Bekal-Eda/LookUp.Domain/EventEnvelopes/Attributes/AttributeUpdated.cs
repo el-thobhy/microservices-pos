@@ -10,14 +10,12 @@ namespace LookUp.Domain.EventEnvelopes.Attributes
     public record AttributeUpdated(
         Guid Id,
         AttributeTypeEnum Type,
-        string Unit,
-        RecordStatusEnum Status)
+        string Unit)
     {
-        public static AttributeUpdated Updated(
+        public static AttributeUpdated Create(
             Guid id,
             AttributeTypeEnum type,
-            string unit,
-            RecordStatusEnum status
-        ) => new(id, type, unit, status);
+            string unit
+        ) => new(id, type, unit);
     }
 }

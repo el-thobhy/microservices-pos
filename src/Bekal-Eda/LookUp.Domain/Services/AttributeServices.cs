@@ -12,8 +12,10 @@ namespace LookUp.Domain.Services
     {
         Task<IEnumerable<AttributeDto>> GetAllAttributes();
         Task<AttributeDto> AddAttribute(AttributeDto dto);
-        Task<AttributeDto> UpdateAttributes(AttributeDto dto);
+        Task<bool> UpdateAttributes(AttributeExceptStatusDto dto);
         Task<AttributeDto> GetAttributeById(Guid id);
+        Task<bool> ChangeStatus(AttributeStatusDto dto);
+
     }
 
     public class AttributesServices : IAttributeService
@@ -55,29 +57,77 @@ namespace LookUp.Domain.Services
             return _mapper.Map<IEnumerable<AttributeDto>>(await _repository.GetAll());
         }
 
-        public async Task<AttributeDto> UpdateAttributes(AttributeDto dto)
+        public async Task<bool> UpdateAttributes(AttributeExceptStatusDto dto)
         {
-            if (dto != null)
+            try
             {
-
-                var dtoToEntity = _mapper.Map<AttributesEntity>(dto);
-                var entity = await _repository.Update(dtoToEntity);
-                var result = await _repository.SaveChangeAsync();
-                if(result > 0)
+                if (dto.Id != new Guid())
                 {
-                    var externalEvent = new EventEnvelope<AttributeUpdated>(
-                        AttributeUpdated.Updated(
-                            id: entity.Id,
-                            unit: entity.Unit,
-                            type: entity.Type,
-                            status: entity.Status
-                            )
-                        );
-                    await _externalEventProducer.Publish(externalEvent, new CancellationToken());
-                    return _mapper.Map<AttributeDto>(entity);
+                    var exist = await _repository.GetById((Guid)dto.Id);
+                    if (exist != null)
+                    {
+                        var dtoToEntity = _mapper.Map<AttributeExceptStatusDto, AttributesEntity>(dto, exist);
+                        dtoToEntity.ModifiedDate = DateTime.Now;
+                        var entity = await _repository.Update(dtoToEntity);
+                        var result = await _repository.SaveChangeAsync();
+                        if (result > 0)
+                        {
+                            var externalEvent = new EventEnvelope<AttributeUpdated>(
+                                AttributeUpdated.Create(
+                                    id: entity.Id,
+                                    unit: entity.Unit,
+                                    type: entity.Type
+                                    )
+                                );
+                            await _externalEventProducer.Publish(externalEvent, new CancellationToken());
+                            return true;
+                        }
+                    }
+
                 }
             }
-            return new AttributeDto();
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+
+            return false;
+        }
+
+        public async Task<bool> ChangeStatus(AttributeStatusDto dto)
+        {
+            try
+            {
+                if (dto.Id != new Guid())
+                {
+                    var exist = await _repository.GetById((Guid)dto.Id);
+                    if (exist != null)
+                    {
+                        var dtoToEntity = _mapper.Map<AttributeStatusDto, AttributesEntity>(dto, exist);
+                        dtoToEntity.ModifiedDate = DateTime.Now;
+                        var entity = await _repository.Update(dtoToEntity);
+                        var result = await _repository.SaveChangeAsync();
+                        if (result > 0)
+                        {
+                            var externalEvent = new EventEnvelope<AttributeStatusChanged>(
+                                AttributeStatusChanged.Create(
+                                    id: entity.Id,
+                                    status: entity.Status
+                                    )
+                                );
+                            await _externalEventProducer.Publish(externalEvent, new CancellationToken());
+                            return true;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+
+            return false;
         }
 
         public async Task<AttributeDto> GetAttributeById(Guid id)

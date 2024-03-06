@@ -16,5 +16,10 @@ namespace Store.Domain.Services
             services.Projection(
                 builder => builder.AddOn<AttributeUpdated>(AttributeProjection.HandleUdpdate)
             );
+        public static IServiceCollection ChangeStatusAttribute(this IServiceCollection services)
+         =>
+           services.Projection(
+               builder => builder.AddOn<AttributeStatusChanged>(AttributeProjection.HandleChangeStatus)
+           );
     }
 }
