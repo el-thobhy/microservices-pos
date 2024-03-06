@@ -16,11 +16,13 @@ namespace Store.Domain.Entities
         }
 
         public DbSet<AttributesEntity> Attributes { get; set; }
-        //public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AttributesConfiguration());
-            //modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
         }
 
         //

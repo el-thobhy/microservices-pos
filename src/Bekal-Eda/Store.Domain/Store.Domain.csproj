@@ -23,9 +23,4 @@
 		<ProjectReference Include="..\Framework.Auth\Framework.Auth.csproj" />
 		<ProjectReference Include="..\Framework.Core\Framework.Core.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="MapProfile\" />
-	  <Folder Include="Repositories\" />
-	</ItemGroup>
 </Project>
