@@ -23,12 +23,13 @@ namespace Store.Domain.MapProfile
             CreateMap<ProductDto, ProductEntity>();
             CreateMap<ProductCategoryChangedDto, ProductEntity>();
             CreateMap<ProductAttributeChangedDto, ProductEntity>();
+            CreateMap<ProductUpdateDto,  ProductEntity>();
             CreateMap<ProductPriceVolumeChangeDto, ProductEntity>();
             CreateMap<ProductSoldStockChangeDto, ProductEntity>();
             CreateMap<ProductStatusChangeDto, ProductEntity>();
+            CreateMap<ProductInputDto, ProductEntity>();
 
             CreateMap<AttributesEntity, AttributeDto>();
-            CreateMap<ProductInputDto, ProductEntity>();
 
         }
     }
