@@ -51,7 +51,7 @@ namespace LookUp.Domain.Repositories
             return entity;
         }
 
-        //fungsi dispose untuk clear sampah yang ada, GC itu Garbage Collector
+        //fungsi dispose untuk clear sampah yang ada, GC itu Garbage Collection
         public virtual void Dispose(bool disposing)
         {
             if(disposing)
