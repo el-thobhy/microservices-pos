@@ -24,4 +24,14 @@ namespace Framework.Core.Enums
         Customer,
         Administrator
     }
+
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum CartStatusEnum
+    {
+        Pending,
+        Confirmed,
+        Paid,
+        Canceled
+    }
 }
