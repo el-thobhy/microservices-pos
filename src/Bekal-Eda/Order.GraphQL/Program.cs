@@ -1,3 +1,5 @@
+using Framework.Core.Event;
+using Framework.Kafka;
 using Order.Domain;
 using Order.Domain.MapProfile;
 
@@ -12,6 +14,11 @@ builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<EntityToDtoProfile>();
 });
+
+builder.Services.AddUser();
+builder.Services.AddEventBus();
+builder.Services.AddKafkaConsumer();
+builder.Services.AddKafkaProducer();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
