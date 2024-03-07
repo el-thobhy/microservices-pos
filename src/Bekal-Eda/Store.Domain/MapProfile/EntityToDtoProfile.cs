@@ -27,7 +27,7 @@ namespace Store.Domain.MapProfile
             CreateMap<ProductPriceVolumeChangeDto, ProductEntity>();
             CreateMap<ProductSoldStockChangeDto, ProductEntity>();
             CreateMap<ProductStatusChangeDto, ProductEntity>();
-            CreateMap<ProductInputDto, ProductEntity>();
+            CreateMap<ProductCreateDto, ProductEntity>();
 
             CreateMap<AttributesEntity, AttributeDto>();
 

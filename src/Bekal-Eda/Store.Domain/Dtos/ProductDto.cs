@@ -19,11 +19,11 @@ namespace Store.Domain.Dtos
         public decimal Volume { get; set; } = default!;
         public int Sold { get; set; } = default!;
         public int Stock { get; set; } = default!;
-        public CategoryDto CategoryDto { get; set; } = default!;
-        public AttributeDto AttributeDto { get; set; } = default!;
+        public CategoryDto? Category { get; set; }
+        public AttributeDto? Attribute { get; set; }
         public RecordStatusEnum Status { get; set; } = RecordStatusEnum.Inactive;
     }
-    public class ProductInputDto
+    public class ProductCreateDto
     {
         public Guid CategoryId { get; set; }
         public Guid AttributeId { get; set; }

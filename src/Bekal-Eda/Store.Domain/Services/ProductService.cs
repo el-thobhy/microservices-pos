@@ -15,10 +15,10 @@ namespace Store.Domain.Services
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetAll();
-        Task<ProductDto> Add(ProductInputDto dto);
-        Task<ProductDto> GetById(Guid id);
-        Task<ProductDto?> Updates(ProductUpdateDto dto);
+        Task<IEnumerable<ProductDto>> GetAllProduct();
+        Task<ProductDto> AddProduct(ProductCreateDto dto);
+        Task<ProductDto> GetProductById(Guid id);
+        Task<ProductDto?> UpdateProduct(ProductUpdateDto dto);
         Task<ProductDto?> ChangeCategory(ProductCategoryChangedDto dto);
         Task<ProductDto?> ChangeAttribute(ProductAttributeChangedDto dto);
         Task<ProductDto?> ChangePriceVolume(ProductPriceVolumeChangeDto dto);
@@ -37,12 +37,12 @@ namespace Store.Domain.Services
             _externalEventProducer = externalEventProducer;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAll()
+        public async Task<IEnumerable<ProductDto>> GetAllProduct()
         {
             return _mapper.Map<IEnumerable<ProductDto>>(await _repository.GetAll());
         }
 
-        public async Task<ProductDto> Add(ProductInputDto dto)
+        public async Task<ProductDto> AddProduct(ProductCreateDto dto)
         {
             if (dto != null)
             {
@@ -68,7 +68,7 @@ namespace Store.Domain.Services
             return new ProductDto();
         }
 
-        public async Task<ProductDto> Updates(ProductUpdateDto dto)
+        public async Task<ProductDto> UpdateProduct(ProductUpdateDto dto)
         {
             try
             {
@@ -106,9 +106,10 @@ namespace Store.Domain.Services
             return new ProductDto();
         }
 
-        public Task<ProductDto> GetById(Guid id)
+        public async Task<ProductDto> GetProductById(Guid id)
         {
-            throw new NotImplementedException();
+            var result = _mapper.Map<ProductDto>(await _repository.GetById(id));
+            return result;
         }
 
         public async Task<ProductDto> ChangeStatus(ProductStatusChangeDto dto)

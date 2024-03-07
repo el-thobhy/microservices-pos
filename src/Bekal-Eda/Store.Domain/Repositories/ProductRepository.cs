@@ -32,12 +32,18 @@ namespace Store.Domain.Repositories
 
         public async Task<IEnumerable<ProductEntity>> GetAll()
         {
-            return await _context.Set<ProductEntity>().ToListAsync();
+            return await _context.Set<ProductEntity>()
+                .Include(o=>o.Category)
+                .Include(o => o.Attribute)
+                .ToListAsync();
         }
 
         public async Task<ProductEntity?> GetById(Guid id)
         {
-            return await _context.Set<ProductEntity>().FindAsync(id);
+            return await _context.Set<ProductEntity>()
+                .Include(o=>o.Category) //lambda function untuk get
+                .Include(o=>o.Attribute)
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<int> SaveChangeAsync(CancellationToken cancellation = default)

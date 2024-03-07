@@ -32,15 +32,21 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddScoped<Query>()
     .AddScoped<CategoryQuery>()
+    .AddScoped<ProductQuery>()
     .AddScoped<Mutation>()
     .AddScoped<CategoryMutation>()
+    .AddScoped<ProductMutation>()
     .AddScoped<ICategoryRepository, CategoryRepository>()
     .AddScoped<ICategoryService, CategoryService>()
+    .AddScoped<IProductService, ProductService>()
+    .AddScoped<IProductRepository, ProductRepository>()
     .AddGraphQLServer()
     .AddQueryType<Query>()
     .AddTypeExtension<CategoryQuery>()
+    .AddTypeExtension<ProductQuery>()
     .AddMutationType<Mutation>()
-    .AddTypeExtension<CategoryMutation>();
+    .AddTypeExtension<CategoryMutation>()
+    .AddTypeExtension<ProductMutation>();
 
 var app = builder.Build();
 

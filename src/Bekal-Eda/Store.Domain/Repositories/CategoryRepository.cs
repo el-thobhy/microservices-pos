@@ -27,12 +27,17 @@ namespace Store.Domain.Repositories
 
         public async Task<IEnumerable<CategoryEntity>> GetAll()
         {
-            return await _context.Set<CategoryEntity>().ToListAsync();
+            return await _context.Set<CategoryEntity>()
+                .Include(o => o.Products)
+                .ToListAsync();
         }
 
         public async Task<CategoryEntity?> GetById(Guid id)
         {
-            return await _context.Set<CategoryEntity>().FindAsync(id);
+            return await _context.Set<CategoryEntity>()
+                .Include(o => o.Products)
+                .ThenInclude(o => o.Attribute)
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<int> SaveChangeAsync(CancellationToken cancellation = default)
