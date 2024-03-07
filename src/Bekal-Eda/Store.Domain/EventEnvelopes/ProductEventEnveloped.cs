@@ -26,8 +26,7 @@ namespace Store.Domain.EventEnvelopes
          Guid Id,
          string Sku,
          string Name,
-         string Description
-        )
+         string Description)
     {
         public static ProductUpdated Create(Guid id,
          string sku,
@@ -35,29 +34,41 @@ namespace Store.Domain.EventEnvelopes
          string description) => new(id, sku, name, description);
     }
 
-    public record ProductCategoryChanged(Guid Id, Guid CategoryId)
+    public record ProductCategoryChanged(
+        Guid Id, 
+        Guid CategoryId)
     {
         public static ProductCategoryChanged Created(Guid id, Guid categoryId)
             => new(id, categoryId);
     }
 
-    public record ProductAttributeChanged(Guid Id, Guid AttributeId)
+    public record ProductAttributeChanged(
+        Guid Id, 
+        Guid AttributeId)
     {
         public static ProductAttributeChanged Created(Guid id, Guid attributeId)
             => new(id, attributeId);
     }
-    public record ProductPriceVolumeChanged(Guid Id, decimal Price, decimal Volume)
+    public record ProductPriceVolumeChanged(
+        Guid Id, 
+        decimal Price, 
+        decimal Volume)
     {
         public static ProductPriceVolumeChanged Created(Guid id, decimal price, decimal volume)
             => new(id, price, volume);
     }
 
-    public record ProductSoldStockChanged(Guid Id, int Sold, int Stock)
+    public record ProductSoldStockChanged(
+        Guid Id, 
+        int Sold, 
+        int Stock)
     {
         public static ProductSoldStockChanged Created(Guid id, int sold, int stock)
             => new(id, sold, stock);
     }
-    public record ProductStatusChanged(Guid Id, RecordStatusEnum Status)
+    public record ProductStatusChanged(
+        Guid Id, 
+        RecordStatusEnum Status)
     {
         public static ProductStatusChanged Created(Guid id, RecordStatusEnum status)
             => new(id, status);

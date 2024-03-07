@@ -17,5 +17,16 @@ namespace Order.Domain
                 builder => builder.AddOn<UserCreated>(UserProjection.Handle)
                 );
         }
+        public static IServiceCollection AddProduct(this IServiceCollection services)
+        {
+            return services.Projection(
+                builder => builder
+                .AddOn<ProductCreated>(ProductProjection.HandleCreated)
+                .AddOn<ProductUpdated>(ProductProjection.HandleUpdated)
+                .AddOn<ProductPriceVolumeChanged>(ProductProjection.HandlePriceVolumeChanged)
+                .AddOn<ProductSoldStockChanged>(ProductProjection.HandleSoldStockChanged)
+                .AddOn<ProductStatusChanged>(ProductProjection.HandleChangeStatus)
+                );
+        }
     }
 }

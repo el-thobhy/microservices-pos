@@ -16,6 +16,7 @@ builder.Services.AddAutoMapper(config =>
 });
 
 builder.Services.AddUser();
+builder.Services.AddProduct();
 builder.Services.AddEventBus();
 builder.Services.AddKafkaConsumer();
 builder.Services.AddKafkaProducer();

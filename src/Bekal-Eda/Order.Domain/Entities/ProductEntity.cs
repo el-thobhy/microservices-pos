@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Order.Domain.Entities
 {
-    public class ProductEntity : BaseEntity
+    public class ProductEntity
     {
         public Guid Id { get; set; }
         public string Sku { get; set; } = default!;
@@ -33,9 +33,11 @@ namespace Order.Domain.Entities
 
             builder.Property(x => x.Name).HasMaxLength(30).IsRequired();
             builder.Property(x => x.Sku).HasMaxLength(20).IsRequired();
-            builder.Property(x => x.Price).HasPrecision(18, 2);
-            builder.Property(x => x.Volume).HasPrecision(18, 2);
-            builder.Property(x => x.Status).IsRequired();
+            builder.Property(x => x.Price).HasPrecision(18, 2).HasDefaultValue(0);
+            builder.Property(x => x.Volume).HasPrecision(18, 2).HasDefaultValue(0);
+            builder.Property(x => x.Sold).HasDefaultValue(0);
+            builder.Property(x => x.Stock).HasDefaultValue(0);
+            builder.Property(x => x.Status).HasDefaultValue(RecordStatusEnum.Inactive);
         }
     }
 }
