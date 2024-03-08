@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Order.Domain.Entities
 {
@@ -17,6 +18,12 @@ namespace Order.Domain.Entities
         public string Name { get; set; } = default!;
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+
+        [ForeignKey("CartId")]
+        public virtual CartEntity Cart { get; set; }
+
+        [ForeignKey("ProductId")]
+        public virtual ProductEntity Product { get; set; }
     }
     public class CartProductConfiguration : IEntityTypeConfiguration<CartProductEntity>
     {
