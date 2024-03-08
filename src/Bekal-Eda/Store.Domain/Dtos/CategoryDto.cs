@@ -13,6 +13,7 @@ namespace Store.Domain.Dtos
         public string Name { get; set; } = default!;
         public string Descriprion { get; set; } = default!;
         public RecordStatusEnum Status { get; set; } = RecordStatusEnum.Inactive;
+        public Nullable<Guid> ModifiedBy { get; set; } = default!;
         public List<ProductDto>? Products { get; set; }
     }
     public class CategoryInputDto

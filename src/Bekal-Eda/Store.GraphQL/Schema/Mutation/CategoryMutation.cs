@@ -1,4 +1,6 @@
-﻿using Store.Domain.Dtos;
+﻿using Framework.Auth;
+using HotChocolate.Authorization;
+using Store.Domain.Dtos;
 using Store.Domain.Services;
 
 namespace Store.GraphQL.Schema.Mutation
@@ -11,11 +13,15 @@ namespace Store.GraphQL.Schema.Mutation
         {
             _service = service;
         }
+        [Authorize(Roles = new[] { "administrator" })]
+        //[ReadableBodyStream(Roles = "Administrator, customer")]
         public async Task<CategoryDto> AddAsync(CategoryInputDto dto)
         {
             var result = await _service.Add(dto);
             return result;
         }
+
+        [Authorize(Roles = new[] { "administrator" })]
         public async Task<CategoryDto> Update(CategoryInputDto dto)
         {
             try
@@ -30,6 +36,8 @@ namespace Store.GraphQL.Schema.Mutation
             }
             return null;
         }
+
+        [Authorize(Roles = new[] { "administrator" })]
         public async Task<CategoryDto> ChangeStatus(CategoryStatusDto dto)
         {
             try

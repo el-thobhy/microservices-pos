@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Framework.Auth;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Store.Domain.Entities;
 
 namespace Store.Domain.Repositories
@@ -14,13 +16,16 @@ namespace Store.Domain.Repositories
     public class CategoryRepository : ICategoryRepository
     {
         protected readonly StoreDbContext _context;
-        public CategoryRepository(StoreDbContext context)
+        private ContextAccessor _contextAccessor;
+        public CategoryRepository(StoreDbContext context, IHttpContextAccessor contextAccessor)
         {
             _context = context;
+            _contextAccessor = new ContextAccessor(contextAccessor);
             _context.Database.EnsureCreated();
         }
         public async Task<CategoryEntity> Add(CategoryEntity entity)
         {
+            entity.ModifiedBy = _contextAccessor.Id;
             _context.Entry(entity).State = EntityState.Added;
             return entity;
         }
