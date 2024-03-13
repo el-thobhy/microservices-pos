@@ -17,7 +17,7 @@ namespace LookUp.Domain.Entities
         public DbSet<AttributesEntity> Attributes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Seed();
+            //modelBuilder.Seed();
             modelBuilder.ApplyConfiguration(new AttributesConfiguration());
         }
     }

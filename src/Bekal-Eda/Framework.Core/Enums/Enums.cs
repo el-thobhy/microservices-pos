@@ -32,6 +32,7 @@ namespace Framework.Core.Enums
         Pending,
         Confirmed,
         Paid,
-        Canceled
+        Canceled,
+        Removed
     }
 }
