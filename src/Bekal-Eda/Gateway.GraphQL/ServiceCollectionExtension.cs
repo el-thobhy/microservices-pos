@@ -1,4 +1,6 @@
-﻿namespace Gateway.GraphQL
+﻿using System.Net.Http.Headers;
+
+namespace Gateway.GraphQL
 {
     public class HttpClientConfig
     {
@@ -10,18 +12,49 @@
     {
         public static IServiceCollection AddHttpClientServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var httpClients = configuration.GetSection("HttpClients").Get<IEnumerable<HttpClientConfig>>();
-            var grapQLServer = services.AddGraphQLServer().AddAuthorization(); 
-            foreach(var item in httpClients)
+            services.AddHttpClient("User", async client =>
             {
-                services.AddHttpClient(item.Name, async client =>
-                {
-                    client.Timeout = TimeSpan.FromSeconds(10);
-                    client.BaseAddress = new Uri(item.Url);
-                });
-                grapQLServer.AddRemoteSchema(item.Name);
-            }
+                client.BaseAddress = new Uri(configuration["HttpClients:UserService"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+            });
+            services.AddHttpClient("Store", async client =>
+            {
+                client.BaseAddress = new Uri(configuration["HttpClients:StoreService"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+            });
+            services.AddHttpClient("Order", async client =>
+            {
+                client.BaseAddress = new Uri(configuration["HttpClients:OrderService"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+            });
+
+            services.AddHttpClient("LookUp", async client =>
+            {
+                client.BaseAddress = new Uri(configuration["HttpClients:LookUpService"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+            });
+
+            var grapQLServer = services
+                .AddGraphQLServer()
+                .AddRemoteSchema("User")
+                .AddRemoteSchema("Store")
+                .AddRemoteSchema("Order")
+                .AddRemoteSchema("LookUp"); 
+
             return services;
+        }
+
+        private async static Task<string?> GetToken()
+        {
+            HttpContextAccessor accessor = new HttpContextAccessor();
+            HttpContext context = accessor.HttpContext;
+            if(context != null)
+            {
+                var header = context.Request.Headers.Where(o => o.Key == "Authorization");
+                if (header.Count() > 0)
+                    return header.FirstOrDefault().Value.ToString().Replace("Bearer ", "");
+            }
+            return null;
         }
     }
 }

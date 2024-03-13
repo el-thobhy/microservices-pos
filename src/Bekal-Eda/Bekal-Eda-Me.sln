@@ -45,9 +45,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.GraphQL", "Order.Grap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gateway.GraphQL", "Gateway.GraphQL\Gateway.GraphQL.csproj", "{E4A5AB4F-9DDE-47D3-BB4D-0247D518A0E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.Domain", "Payment.Domain\Payment.Domain.csproj", "{1878D9D6-61D1-4956-BF6A-C024C2BB5F6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Domain", "Payment.Domain\Payment.Domain.csproj", "{1878D9D6-61D1-4956-BF6A-C024C2BB5F6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.GraphQL", "Payment.GraphQL\Payment.GraphQL.csproj", "{8196C8A8-E609-4D56-B116-3E53CAD9D271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.GraphQL", "Payment.GraphQL\Payment.GraphQL.csproj", "{8196C8A8-E609-4D56-B116-3E53CAD9D271}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LookUp.Test", "LookUp.Test\LookUp.Test.csproj", "{2AADE45B-3B4D-4826-99D2-FA3DB57B3A08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +117,10 @@ Global
 		{8196C8A8-E609-4D56-B116-3E53CAD9D271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8196C8A8-E609-4D56-B116-3E53CAD9D271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8196C8A8-E609-4D56-B116-3E53CAD9D271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AADE45B-3B4D-4826-99D2-FA3DB57B3A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AADE45B-3B4D-4826-99D2-FA3DB57B3A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AADE45B-3B4D-4826-99D2-FA3DB57B3A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AADE45B-3B4D-4826-99D2-FA3DB57B3A08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +145,7 @@ Global
 		{E4A5AB4F-9DDE-47D3-BB4D-0247D518A0E6} = {26678E55-C129-4CD1-B176-3B012020DEE9}
 		{1878D9D6-61D1-4956-BF6A-C024C2BB5F6D} = {CCABD99F-E47A-4117-A06E-1C820F3D5A0A}
 		{8196C8A8-E609-4D56-B116-3E53CAD9D271} = {CCABD99F-E47A-4117-A06E-1C820F3D5A0A}
+		{2AADE45B-3B4D-4826-99D2-FA3DB57B3A08} = {2925A534-1703-44EE-A059-523C69044B41}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {081484AA-36EB-4036-92F4-DF5611FC1485}
