@@ -12,8 +12,10 @@ namespace Order.Domain.MapProfile
             CreateMap<CartDto, CartEntity>();
             CreateMap<CartProductEntity, CartProductDto>();
             CreateMap<CartProductDto, CartProductEntity>();
+            CreateMap<CartProductInputDto, CartProductEntity>();
 
             CreateMap<UserEntity, UserDto>();
+            CreateMap<UserDto, UserEntity>();
             CreateMap<ProductEntity, ProductDto>();
         }
     }

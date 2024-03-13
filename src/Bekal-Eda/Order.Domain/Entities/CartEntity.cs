@@ -19,6 +19,7 @@ namespace Order.Domain.Entities
 
         [ForeignKey("CustomerId")]
         public virtual UserEntity Customer { get; set; }
+        public virtual ICollection<CartProductEntity> CartProducts { get; set; }
     }
 
     public class CartConfiguration : IEntityTypeConfiguration<CartEntity>
