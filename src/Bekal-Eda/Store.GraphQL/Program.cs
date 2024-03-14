@@ -69,6 +69,7 @@ builder.Services.AddAutoMapper(config =>
 });
 
 builder.Services.AddStore();
+builder.Services.AddValidator();
 builder.Services.UpdateStoreAttribute();
 builder.Services.ChangeStatusAttribute();
 builder.Services.AddEventBus();

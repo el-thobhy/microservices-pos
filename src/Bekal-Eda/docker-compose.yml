@@ -68,3 +68,76 @@ services:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=broker:29092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+
+  user.graphql:
+    image: ${DOCKER_REGISTRY-}usergraphql
+    container_name: user-bekal
+    build:
+      context: .
+      dockerfile: User GraphQL/Dockerfile
+    environment: 
+      - ConnectionStrings__User_Db_Conn=Server=mssql; Database=UserDatabase; User=SA; Password=Pass@word; TrustServerCertificate=True
+      - JWT__ExpireDays=60
+      - JWT__Secret=JWTAuthorization2024Bekal.NetMicroservices
+      - JWT__ValidAudience=*
+      - JWT__ValidIssuer=*
+      - KafkaProducer__PriducerConfig__BootstrapServers=broker:29092
+      - KafkaProducer__Topic=Users
+#tidak boleh ada spasi setelah samadengan =
+    depends_on:
+      - mssql
+      - broker
+
+  lookup.graphql:
+    image: ${DOCKER_REGISTRY-}lookupgraphql
+    container_name: lookup-bekal
+    build:
+      context: .
+      dockerfile: LookUp.GraphQL/Dockerfile
+    environment:
+      - ConnectionStrings__User_Db_Conn=Server=mssql; Database=LookUpDatabase; User=SA; Password=Pass@word; TrustServerCertificate=True
+      - KafkaProducer__PriducerConfig__BootstrapServers=broker:29092
+      - KafkaProducer__Topic=Lookups
+    depends_on:
+      - mssql
+      - broker
+
+  store.graphql:
+    image: ${DOCKER_REGISTRY-}storegraphql
+    container_name: store-bekal
+    build:
+      context: .
+      dockerfile: Store.GraphQL/Dockerfile
+    environment:
+      - ConnectionStrings__User_Db_Conn=Server=mssql; Database=StoreDatabase; User=SA; Password=Pass@word; TrustServerCertificate=True
+      - JWT__ExpireDays=60
+      - JWT__Secret=JWTAuthorization2024Bekal.NetMicroservices
+      - JWT__ValidAudience=*
+      - JWT__ValidIssuer=*
+      - KafkaConsumer__ConsumerConfig__AutoOffsetReset=Earliest
+      - KafkaConsumer__ConsumerConfig__BootstrapServers=broker:29092
+      - KafkaConsumer__ConsumerConfig__EnableAutoCommit=False
+      - KafkaConsumer__ConsumerConfig__GroupId=Stores      
+      - KafkaProducer__PriducerConfig__BootstrapServers=broker:29092      
+      - KafkaConsumer__Topics__0=Lookups     
+      - KafkaProducer__Topic=Stores
+    depends_on:
+      - mssql
+      - broker
+    
+
+
+  gateway.graphql:
+    image: ${DOCKER_REGISTRY-}gatewaygraphql
+    container_name: gateway-bekal
+    build:
+      context: .
+      dockerfile: Gateway.GraphQL/Dockerfile
+    environment:
+      - HttpClients__LookUpService=http://lookup-bekal:52080/graphql
+      # - HttpClients__OrderService=user.graphql/graphql/
+      # - HttpClients__StoreService=store.graphql/graphql
+      - HttpClients__UserService=http://user-bekal:51080/graphql
+    depends_on:
+      - user.graphql
+      - lookup.graphql

@@ -4,7 +4,9 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "user.graphql": "StartDebugging"
+        "user.graphql": "StartDebugging",
+        "gateway.graphql": "StartDebugging",
+        "store.graphql": "StartDebugging"
       }
     }
   }

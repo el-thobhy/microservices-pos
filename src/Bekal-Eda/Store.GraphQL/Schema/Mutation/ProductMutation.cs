@@ -1,4 +1,9 @@
-﻿using Store.Domain.Dtos;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using HotChocolate.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Store.Domain.Dtos;
 using Store.Domain.Services;
 
 namespace Store.GraphQL.Schema.Mutation
@@ -7,14 +12,25 @@ namespace Store.GraphQL.Schema.Mutation
     public class ProductMutation
     {
         private readonly IProductService _service;
-        public ProductMutation(IProductService service)
+        private IValidator<ProductCreateDto> _validator;
+        public ProductMutation(IProductService service, IValidator<ProductCreateDto> validator)
         {
             _service = service;
+            _validator = validator;
         }
         public async Task<ProductDto> AddProductAsync(ProductCreateDto dto)
         {
-            var result = await _service.AddProduct(dto);
-            return result;
+            ValidationResult resultVal = await _validator.ValidateAsync(dto);
+            if (!resultVal.IsValid)
+            {
+                throw new GraphQLException(JsonConvert.SerializeObject(resultVal.Errors));
+            }
+            else
+            {
+                var result = await _service.AddProduct(dto);
+                return result;
+            }
+
         }
         public async Task<ProductDto> UpdateProduct(ProductUpdateDto dto)
         {

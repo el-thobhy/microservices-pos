@@ -42,6 +42,7 @@ namespace Store.Domain.Entities
             builder.Property(x => x.CategoryId).IsRequired();
 
             builder.Property(x => x.Name).HasMaxLength(30).IsRequired();
+            builder.HasIndex(x => x.Name).IsUnique();
             builder.Property(x => x.Description).HasMaxLength(255).IsRequired();
             builder.Property(x => x.Sku).HasMaxLength(20).IsRequired();
             builder.Property(x => x.Price).HasPrecision(18, 2);
