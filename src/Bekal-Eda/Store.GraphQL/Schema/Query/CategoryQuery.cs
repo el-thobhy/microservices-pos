@@ -14,13 +14,13 @@ namespace Store.GraphQL.Schema.Query
         }
         [UsePaging]
         [Authorize(Roles = new[] { "administrator", "customer" })]
-        public async Task<IEnumerable<CategoryDto>> GetAll()
+        public async Task<IEnumerable<CategoryDto>> GetAllCategory()
         {
             return await _service.GetAlls();
         }
 
-        [Authorize(Roles = new[] { "administrator, customer" })]
-        public async Task<CategoryDto> GetById(Guid id)
+        [Authorize(Roles = new[] { "administrator" })]
+        public async Task<CategoryDto> GetCategoryById(Guid id)
         {
             return await _service.GetById(id);
         }

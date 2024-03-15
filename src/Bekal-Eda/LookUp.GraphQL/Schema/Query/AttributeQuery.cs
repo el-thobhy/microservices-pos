@@ -12,12 +12,12 @@ namespace LookUp.GraphQL.Schema.Query
             _service = service;
         }
         [UsePaging]
-        public async Task<IEnumerable<AttributeDto>> GetAll()
+        public async Task<IEnumerable<AttributeDto>> GetAllAttribute()
         {
             return await _service.GetAllAttributes();
         }
 
-        public async Task<AttributeDto> GetById(Guid id)
+        public async Task<AttributeDto> GetAttributeById(Guid id)
         {
             return await _service.GetAttributeById(id);
         }

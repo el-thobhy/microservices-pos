@@ -31,7 +31,7 @@ namespace LookUp.GraphQL.Schema.Mutation
             }
             return null;
         }
-        public async Task<AttributeStatusDto> ChangeStatus(AttributeStatusDto dto)
+        public async Task<AttributeStatusDto> ChangeAttributeStatus(AttributeStatusDto dto)
         {
             try
             {

@@ -6,7 +6,8 @@
       "serviceActions": {
         "user.graphql": "StartDebugging",
         "gateway.graphql": "StartDebugging",
-        "store.graphql": "StartDebugging"
+        "store.graphql": "StartDebugging",
+        "order.graphql": "StartDebugging"
       }
     }
   }
