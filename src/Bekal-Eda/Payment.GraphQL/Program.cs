@@ -2,6 +2,10 @@ using Framework.Core.Event;
 using Framework.Kafka;
 using Payment.Domain;
 using Payment.Domain.MapProfile;
+using Payment.Domain.Repositories;
+using Payment.Domain.Services;
+using Payment.GraphQL.Schema.Mutation;
+using Payment.GraphQL.Schema.Query;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +26,22 @@ builder.Services.AddKafkaProducer();
 builder.Services.AddHttpContextAccessor();
 
 
+builder.Services
+    .AddScoped<Query>()
+    .AddScoped<PaymentQuery>()
+    .AddScoped<Mutation>()
+    .AddScoped<PaymentMutation>()
+    .AddScoped<ICartProductRepository, CartProductRepository>()
+    .AddScoped<IPaymentRepository, PaymentRepository>()
+    .AddScoped<IProductRepository, ProductRepository>()
+    .AddScoped<IPaymentService, PaymentServices>()
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddTypeExtension<PaymentQuery>()
+    .AddMutationType<Mutation>()
+    .AddTypeExtension<PaymentMutation>();
+//.AddAuthorization();
+
 
 
 var app = builder.Build();
@@ -30,6 +50,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//app.MapGraphQL();
+app.MapGraphQL();
 
 app.Run();

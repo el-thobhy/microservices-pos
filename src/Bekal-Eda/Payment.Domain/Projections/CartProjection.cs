@@ -38,14 +38,14 @@ namespace Payment.Domain.Projections
             Debug.WriteLine("tes projection {0}",eventEnvelope.Data );
             using (var context = new PaymentDbContext(PaymentDbContext.OnConfigure()))
             {
-                CartEntity entity = new CartEntity()
+                PaymentEntity entity = new PaymentEntity()
                 {
                     Id = (Guid)id,
                     CustomerId = customerId,
                     Status = status
                 };
 
-                context.Carts.Add(entity);
+                context.Payments.Add(entity);
                 context.SaveChanges();
             }
             return true;
@@ -56,16 +56,16 @@ namespace Payment.Domain.Projections
             var (id, customerId, cartProducts, status) = eventEnvelope.Data;
             using (var context = new PaymentDbContext(PaymentDbContext.OnConfigure()))
             {
-                CartEntity entity = context.Carts.Where(o => o.Id == id).FirstOrDefault();
+                PaymentEntity entity = context.Payments.Where(o => o.Id == id).FirstOrDefault();
                 if (entity == null)
                 {
-                    CartEntity newEntity = new CartEntity()
+                    PaymentEntity newEntity = new PaymentEntity()
                     {
                         Id = (Guid)id,
                         CustomerId = customerId,
                         Status = status
                     };
-                    context.Carts.Add(newEntity);
+                    context.Payments.Add(newEntity);
                     context.SaveChanges();
                 }
                 else

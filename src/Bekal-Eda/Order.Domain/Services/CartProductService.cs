@@ -42,6 +42,7 @@ namespace Order.Domain.Services
                     existCp.Quantity = product.Stock;
                 }
                 existCp.Name = product.Name;
+                existCp.Price = product.Price;
                 var entity = await _repository.Update(existCp);
                 var result = await _repository.SaveChangesAsync();
                 if(result > 0)

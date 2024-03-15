@@ -11,8 +11,8 @@ namespace Payment.Domain.Dtos
     {
         public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
-        public decimal Total { get; set; }
-        public decimal Pay { get; set; }
+        public decimal? Total { get; set; }
+        public decimal? Pay { get; set; }
         public CartStatusEnum Status { get; set; }
         public DateTime Modified { get; set; }
         public UserDto Customer { get; set; }
