@@ -173,6 +173,30 @@ services:
       - HttpClients__LookupService=http://lookup.graphql/graphql
       - HttpClients__OrderService=http://order.graphql/graphql
       - HttpClients__StoreService=http://store.graphql/graphql
+      - HttpClients__PaymentService=http://payment.graphql/graphql
     ports:
       - "54080:80"
  
+
+  payment.graphql:
+    image: ${DOCKER_REGISTRY-}paymentgraphql
+    build:
+      context: .
+      dockerfile: Payment.GraphQL/Dockerfile
+    environment:
+      - ConnectionStrings__Payment_Db_Conn=Server=mssql; Database=PaymentDatabase; User=sa; Password=Pass@word;TrustServerCertificate=True
+      - KafkaConsumer__ConsumerConfig__AutoOffsetReset=Earliest
+      - KafkaConsumer__ConsumerConfig__BootstrapServers=broker:9092
+      - KafkaConsumer__ConsumerConfig__EnableAutoCommit=False
+      - KafkaConsumer__ConsumerConfig__GroupId=Payments
+      - KafkaConsumer__Topics__0=Users
+      - KafkaConsumer__Topics__1=Stores
+      - KafkaConsumer__Topics__2=Carts
+      - KafkaProducer__PriducerConfig__BootstrapServers=broker:9092
+      - KafkaProducer__Topic=Payments
+    ports:
+      - "56080:80"
+    depends_on:
+      - mssql
+      - broker
+

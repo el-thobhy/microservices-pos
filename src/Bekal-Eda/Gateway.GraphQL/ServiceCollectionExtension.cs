@@ -34,12 +34,19 @@ namespace Gateway.GraphQL
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
             });
 
+            services.AddHttpClient("Payment", async client =>
+            {
+                client.BaseAddress = new Uri(configuration["HttpClients:PaymentService"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+            });
+
             var grapQLServer = services
                 .AddGraphQLServer()
                 .AddRemoteSchema("User")
                 .AddRemoteSchema("Store")
                 .AddRemoteSchema("Order")
-                .AddRemoteSchema("LookUp"); 
+                .AddRemoteSchema("LookUp") 
+                .AddRemoteSchema("Payment"); 
 
             return services;
         }

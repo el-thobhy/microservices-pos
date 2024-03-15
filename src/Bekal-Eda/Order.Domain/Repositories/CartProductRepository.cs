@@ -35,7 +35,10 @@ namespace Order.Domain.Repositories
 
         public async Task<CartProductEntity> GetById(Guid id)
         {
-            return await _context.Set<CartProductEntity>().FindAsync(id);
+            return await _context.Set<CartProductEntity>()
+                .Include(x=>x.Product)
+                .Include(x=>x.Cart).Include(x=>x.Cart.Customer)
+                .FirstOrDefaultAsync(x=>x.Id == id);
         }
 
         public async Task<ProductEntity> GetProductById(Guid id)

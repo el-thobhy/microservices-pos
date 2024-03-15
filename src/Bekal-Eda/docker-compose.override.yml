@@ -32,3 +32,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
 
+
+  payment.graphql:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+

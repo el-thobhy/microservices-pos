@@ -16,6 +16,8 @@ namespace Order.Domain.Dtos
         public string Name { get; set; } = default!;
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+        public ProductDto? Product { get; set; }
+        public CartDto? Cart { get; set; }
     }
     public class CartProductInputDto
     {
