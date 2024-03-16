@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Framework.Validation;
 using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -23,7 +24,7 @@ namespace Store.GraphQL.Schema.Mutation
             ValidationResult resultVal = await _validator.ValidateAsync(dto);
             if (!resultVal.IsValid)
             {
-                throw new GraphQLException(JsonConvert.SerializeObject(resultVal.Errors));
+                throw new GraphQLException(ValidationError.Create(resultVal));
             }
             else
             {
