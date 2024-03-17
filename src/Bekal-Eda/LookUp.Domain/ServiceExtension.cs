@@ -26,7 +26,10 @@ namespace User.Domain
 
         public static IServiceCollection AddValidator(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<AttributeDto>, AttributeCreateValidator>();
+            services
+                .AddScoped<IValidator<AttributeDto>, AttributeCreateValidator>()
+                .AddScoped<IValidator<AttributeExceptStatusDto>, AttributeUpdateValidator>()
+                .AddScoped<IValidator<AttributeStatusDto>, AttributeChangeStatusValidator>();
             return services;
         }
     }

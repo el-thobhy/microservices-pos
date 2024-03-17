@@ -11,10 +11,15 @@ namespace LookUp.GraphQL.Schema.Mutation
     {
         private readonly IAttributeService _service;
         private IValidator<AttributeDto> _validator;
-        public AttributeMutation(IAttributeService service, IValidator<AttributeDto> validator)
+        private IValidator<AttributeExceptStatusDto> _validatorUpdate;
+        private IValidator<AttributeStatusDto> _validatorChangeStatus;
+        public AttributeMutation(IAttributeService service, IValidator<AttributeDto> validator, IValidator<AttributeExceptStatusDto> validatorUpdate, IValidator<AttributeStatusDto> validatorChangeStatus)
         {
             _service = service;
             _validator = validator;
+            _validatorUpdate = validatorUpdate;
+            _validatorChangeStatus = validatorChangeStatus;
+
         }
 
         public async Task<AttributeDto> AddAttributeAsync(AttributeDto dto)
@@ -30,31 +35,31 @@ namespace LookUp.GraphQL.Schema.Mutation
                 return result;
             }
         }
-        public async Task<AttributeExceptStatusDto> Update(AttributeExceptStatusDto dto)
+        public async Task<AttributeExceptStatusDto> UpdateAttribute(AttributeExceptStatusDto dto)
         {
-            try
+            ValidationResult resultVal = await _validatorUpdate.ValidateAsync(dto);
+            if (!resultVal.IsValid)
+            {
+                throw new GraphQLException(ValidationError.Create(resultVal));
+            }
+            else 
             {
                 var result = await _service.UpdateAttributes(dto);
                 if (result) return dto;
-            }
-            catch (Exception e)
-            {
-                await Console.Out.WriteLineAsync($"Error: {e.Message}");
-                throw;
             }
             return null;
         }
         public async Task<AttributeStatusDto> ChangeAttributeStatus(AttributeStatusDto dto)
         {
-            try
+            ValidationResult resultVal = await _validatorChangeStatus.ValidateAsync(dto);
+            if(!resultVal.IsValid)
+            {
+                throw new GraphQLException(ValidationError.Create(resultVal));
+            }
+            else
             {
                 var result = await _service.ChangeStatus(dto);
                 if (result) return dto;
-            }
-            catch (Exception e)
-            {
-                await Console.Out.WriteLineAsync($"Error: {e.Message}");
-                throw;
             }
             return null;
         }
