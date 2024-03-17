@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Framework.Validation;
+using HotChocolate.Authorization;
 using LookUp.Domain.Dtos;
 using LookUp.Domain.Services;
 
@@ -22,6 +23,7 @@ namespace LookUp.GraphQL.Schema.Mutation
 
         }
 
+        [Authorize(Roles = new[] { "administrator" })]
         public async Task<AttributeDto> AddAttributeAsync(AttributeDto dto)
         {
             ValidationResult resultVal = await _validator.ValidateAsync(dto);
@@ -35,6 +37,8 @@ namespace LookUp.GraphQL.Schema.Mutation
                 return result;
             }
         }
+
+        [Authorize(Roles = new[] { "administrator" })]
         public async Task<AttributeExceptStatusDto> UpdateAttribute(AttributeExceptStatusDto dto)
         {
             ValidationResult resultVal = await _validatorUpdate.ValidateAsync(dto);
@@ -49,6 +53,8 @@ namespace LookUp.GraphQL.Schema.Mutation
             }
             return null;
         }
+
+        [Authorize(Roles = new[] { "administrator" })]
         public async Task<AttributeStatusDto> ChangeAttributeStatus(AttributeStatusDto dto)
         {
             ValidationResult resultVal = await _validatorChangeStatus.ValidateAsync(dto);
