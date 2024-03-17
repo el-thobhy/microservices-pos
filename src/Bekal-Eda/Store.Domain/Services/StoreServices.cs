@@ -27,7 +27,10 @@ namespace Store.Domain.Services
 
         public static IServiceCollection AddValidator(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<ProductCreateDto>, ProductCreateValidator>();
+            services
+                .AddScoped<IValidator<ProductCreateDto>, ProductCreateValidator>()
+                .AddScoped<IValidator<CategoryStatusDto>, CategoryChangeStatusValidator>()
+                .AddScoped<IValidator<CategoryInputDto>, CategoryCreateValidator>();
             return services;
         }
     }
