@@ -9,6 +9,7 @@ WORKDIR /src
 COPY ["LookUp.GraphQL/LookUp.GraphQL.csproj", "LookUp.GraphQL/"]
 COPY ["Framework.Kafka/Framework.Kafka.csproj", "Framework.Kafka/"]
 COPY ["Framework.Core/Framework.Core.csproj", "Framework.Core/"]
+COPY ["Framework.Validation/Framework.Validation.csproj", "Framework.Validation/"]
 COPY ["LookUp.Domain/LookUp.Domain.csproj", "LookUp.Domain/"]
 COPY ["Framework.Auth/Framework.Auth.csproj", "Framework.Auth/"]
 RUN dotnet restore "LookUp.GraphQL/LookUp.GraphQL.csproj"
