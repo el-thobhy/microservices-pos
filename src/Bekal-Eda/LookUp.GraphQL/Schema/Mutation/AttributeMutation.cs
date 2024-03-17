@@ -1,4 +1,7 @@
-﻿using LookUp.Domain.Dtos;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Framework.Validation;
+using LookUp.Domain.Dtos;
 using LookUp.Domain.Services;
 
 namespace LookUp.GraphQL.Schema.Mutation
@@ -7,15 +10,25 @@ namespace LookUp.GraphQL.Schema.Mutation
     public class AttributeMutation
     {
         private readonly IAttributeService _service;
-        public AttributeMutation(IAttributeService service)
+        private IValidator<AttributeDto> _validator;
+        public AttributeMutation(IAttributeService service, IValidator<AttributeDto> validator)
         {
             _service = service;
+            _validator = validator;
         }
 
         public async Task<AttributeDto> AddAttributeAsync(AttributeDto dto)
         {
-            var result = await _service.AddAttribute(dto);
-            return result;
+            ValidationResult resultVal = await _validator.ValidateAsync(dto);
+            if(!resultVal.IsValid)
+            {
+                throw new GraphQLException(ValidationError.Create(resultVal));
+            }
+            else
+            {
+                var result = await _service.AddAttribute(dto);
+                return result;
+            }
         }
         public async Task<AttributeExceptStatusDto> Update(AttributeExceptStatusDto dto)
         {

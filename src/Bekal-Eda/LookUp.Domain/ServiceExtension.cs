@@ -1,5 +1,8 @@
 ﻿
+using FluentValidation;
+using LookUp.Domain.Dtos;
 using LookUp.Domain.Entities;
+using LookUp.Domain.Validations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +22,12 @@ namespace User.Domain
             {
                 options.UseSqlServer(configuration.GetConnectionString(DefaultConnection));
             });
+        }
+
+        public static IServiceCollection AddValidator(this IServiceCollection services)
+        {
+            services.AddScoped<IValidator<AttributeDto>, AttributeCreateValidator>();
+            return services;
         }
     }
 }
