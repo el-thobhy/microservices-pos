@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Framework.Kafka\Framework.Kafka.csproj" />
+    <ProjectReference Include="..\Framework.Validation\Framework.Validation.csproj" />
     <ProjectReference Include="..\UserDomain\User.Domain.csproj" />
   </ItemGroup>
 

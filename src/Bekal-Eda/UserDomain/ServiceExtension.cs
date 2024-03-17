@@ -1,8 +1,11 @@
 ﻿
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using User.Domain.Dtos;
 using User.Domain.Entities;
+using User.Domain.Validations;
 
 namespace User.Domain
 {
@@ -19,6 +22,12 @@ namespace User.Domain
             {
                 options.UseSqlServer(configuration.GetConnectionString(DefaultConnection));
             });
+        }
+
+        public static IServiceCollection AddValidator(this IServiceCollection services)
+        {
+            services.AddScoped<IValidator<UserDto>, UserCreateValidator>();
+            return services;
         }
     }
 }

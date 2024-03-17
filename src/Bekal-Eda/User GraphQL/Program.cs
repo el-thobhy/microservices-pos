@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDomainContext(builder.Configuration);
+builder.Services.AddValidator();
 builder.Services.AddKafkaProducer();
 
 builder.Services.AddControllers();

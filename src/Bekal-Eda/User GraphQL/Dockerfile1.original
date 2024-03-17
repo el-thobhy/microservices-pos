@@ -9,7 +9,6 @@ WORKDIR /src
 COPY ["User GraphQL/User.GraphQL.csproj", "User GraphQL/"]
 COPY ["Framework.Kafka/Framework.Kafka.csproj", "Framework.Kafka/"]
 COPY ["Framework.Core/Framework.Core.csproj", "Framework.Core/"]
-COPY ["Framework.Validation/Framework.Validation.csproj", "Framework.Validation/"]
 COPY ["UserDomain/User.Domain.csproj", "UserDomain/"]
 COPY ["Framework.Auth/Framework.Auth.csproj", "Framework.Auth/"]
 RUN dotnet restore "User GraphQL/User.GraphQL.csproj"
