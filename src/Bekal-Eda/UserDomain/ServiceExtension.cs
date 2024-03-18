@@ -26,7 +26,9 @@ namespace User.Domain
 
         public static IServiceCollection AddValidator(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<UserDto>, UserCreateValidator>();
+            services
+                .AddScoped<IValidator<UserDto>, UserCreateValidator>()
+                .AddScoped<IValidator<LoginInputDto>, LoginValidator>();
             return services;
         }
     }

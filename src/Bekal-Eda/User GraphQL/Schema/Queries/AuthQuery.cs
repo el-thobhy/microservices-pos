@@ -1,4 +1,7 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Framework.Validation;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,10 +15,12 @@ namespace User_GraphQL.Schema.Queries
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
-        public AuthQuery(IConfiguration configuration, IUserService service)
+        private IValidator<LoginInputDto> _validator;
+        public AuthQuery(IValidator<LoginInputDto> validator, IConfiguration configuration, IUserService service)
         {
             _configuration = configuration;
             _userService = service;
+            _validator = validator;
         }
         public string Hello()
         {
@@ -24,27 +29,40 @@ namespace User_GraphQL.Schema.Queries
 
 
 
-        public async Task<LoginDto> LoginAsync(string username, string password)
+        public async Task<LoginDto> LoginAsync(LoginInputDto dtoInput)
         {
-            LoginDto result = await _userService.Login(username, password);
-            if(result.Id != new Guid())
+            ValidationResult resultVal = await _validator.ValidateAsync(dtoInput);
+            if (!resultVal.IsValid)
             {
-                var claims = new List<Claim>()
+                throw new GraphQLException(ValidationError.Create(resultVal));
+            }
+            else
+            {
+                LoginDto result = await _userService.Login(dtoInput);
+                if (result.Id != new Guid())
                 {
+                    var claims = new List<Claim>()
+                    {
                     new Claim(ClaimTypes.Name, result.UserName),
                     new Claim("FullName", result.FullName),
                     new Claim("Id", result.Id.ToString())
                 };
-                foreach(var item in result.Roles)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, item.ToLower()));
-                }
+                    foreach (var item in result.Roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, item.ToLower()));
+                    }
 
-                var token = GetToken(claims);
-                result.Token = new JwtSecurityTokenHandler().WriteToken(token);
-                result.Expiration = token.ValidTo;
-                return result;
+                    var token = GetToken(claims);
+                    result.Token = new JwtSecurityTokenHandler().WriteToken(token);
+                    result.Expiration = token.ValidTo;
+                    return result;
+                }
+                else
+                {
+                    throw new GraphQLException("Credential not Match");
+                }
             }
+
             return new LoginDto();
         }
         private JwtSecurityToken GetToken(List<Claim> authClaims)

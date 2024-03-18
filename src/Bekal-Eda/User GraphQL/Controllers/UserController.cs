@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using User.Domain.Dtos;
 using User.Domain.Services;
 using User_GraphQL.Schema.Mutations;
 
@@ -16,11 +17,11 @@ namespace User_GraphQL.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginTypeInput payload)
+        public async Task<IActionResult> Login(LoginInputDto payload)
         {
             try
             {
-                var result  =  await  _service.Login(payload.Username, payload.Password);
+                var result  =  await  _service.Login(payload);
                 return Ok(result);
             }
             catch (Exception ex)

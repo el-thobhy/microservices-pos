@@ -38,4 +38,11 @@ namespace User.Domain.Dtos
         public RecordStatusEnum Status { get; set; } = RecordStatusEnum.Inactive;
         public DateTime Expiration { get; set; }
     }
+
+    public class LoginInputDto
+    {
+        public string UserName { get; set; } = default!;
+        public string Password { get; set; } = default!;
+
+    }
 }
