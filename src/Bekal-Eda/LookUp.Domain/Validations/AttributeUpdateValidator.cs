@@ -34,10 +34,10 @@ namespace LookUp.Domain.Validations
                .WithName("Unit")
                .WithMessage("Length 1 - 100");
 
-            RuleFor(x => new { x.Unit })
+            RuleFor(x => new { x.Unit, x.Id})
                 .Must(x =>
                 {
-                    return !dbContext.Attributes.Where(o => o.Unit == x.Unit).Any();
+                    return !dbContext.Attributes.Where(o => o.Unit == x.Unit && o.Id != x.Id).Any();
                 })
                 .WithName("Unit")
                 .WithMessage("Unit Already Exist");

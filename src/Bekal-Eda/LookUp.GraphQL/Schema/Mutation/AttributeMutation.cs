@@ -48,7 +48,7 @@ namespace LookUp.GraphQL.Schema.Mutation
             }
             else 
             {
-                var result = await _service.UpdateAttributes(dto);
+                var result = await _service.UpdateAttributes(dto);  
                 if (result) return dto;
             }
             return null;

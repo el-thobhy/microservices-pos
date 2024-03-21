@@ -8,7 +8,9 @@
         "gateway.graphql": "StartDebugging",
         "store.graphql": "StartDebugging",
         "order.graphql": "StartDebugging",
-        "payment.graphql": "StartDebugging"
+        "payment.graphql": "StartDebugging",
+        "productservices": "StartDebugging",
+        "getproductservices": "StartDebugging"
       }
     }
   }

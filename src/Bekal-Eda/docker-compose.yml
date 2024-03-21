@@ -51,6 +51,8 @@ services:
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic Stores --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic Carts --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic Payments --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic ProductGet --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic ProductCreate --replication-factor 1 --partitions 1
 
       echo -e 'Successfully created the following topics:'
       kafka-topics --bootstrap-server broker:29092 --list
@@ -159,7 +161,7 @@ services:
       - KafkaProducer__PriducerConfig__BootstrapServers=broker:29092
       - KafkaProducer__Topic=Carts
     ports:
-      - "55080:80"
+      - "59080:80"
     depends_on:
       - mssql
       - broker
@@ -179,6 +181,8 @@ services:
       - HttpClients__OrderService=http://order.graphql/graphql
       - HttpClients__StoreService=http://store.graphql/graphql
       - HttpClients__PaymentService=http://payment.graphql/graphql
+      - HttpClients__GetProductService=http://getproductservices/graphql
+      - HttpClients__CreateProductService=http://productservices/graphql
     ports:
       - "54080:80"
  
@@ -206,3 +210,41 @@ services:
       - mssql
       - broker
 
+
+  productservices:
+    image: ${DOCKER_REGISTRY-}productservices
+    container_name: product-tes
+    build:
+      context: .
+      dockerfile: ProductServices/Dockerfile
+    environment: 
+      - ConnectionStrings__Product_Db_Conn=Server=mssql; Database=ProdukDatabase; User=SA; Password=Pass@word; TrustServerCertificate=True
+      - KafkaProducer__PriducerConfig__BootstrapServers=broker:29092
+      - KafkaProducer__Topic=ProductCreate
+    ports:
+      - "58080:80"
+    depends_on:
+      - mssql
+      - broker
+
+
+
+
+  getproductservices:
+    image: ${DOCKER_REGISTRY-}getproductservices
+    container_name: get-product-aja
+    build:
+      context: .
+      dockerfile: GetProduct/Dockerfile
+    environment: 
+      - ConnectionStrings__Product_Db_Conn=Server=mssql; Database=GetProdukDatabase; User=SA; Password=Pass@word; TrustServerCertificate=True
+      - KafkaConsumer__ConsumerConfig__AutoOffsetReset=Earliest
+      - KafkaConsumer__ConsumerConfig__BootstrapServers=broker:29092
+      - KafkaConsumer__ConsumerConfig__EnableAutoCommit=False
+      - KafkaConsumer__ConsumerConfig__GroupId=ProductGet  
+      - KafkaConsumer__Topics__0=ProductCreate     
+    ports:
+      - "60080:80"
+    depends_on:
+      - mssql
+      - broker

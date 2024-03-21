@@ -37,3 +37,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
 
+
+  productservices:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+
+  getproductservices:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+

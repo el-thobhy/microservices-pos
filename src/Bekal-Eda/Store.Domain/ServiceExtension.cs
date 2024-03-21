@@ -7,17 +7,17 @@ namespace Store.Domain
 {
     public static class ServiceExtension
     {
-        public static string DefaultConnection { get; } = "User_Db_Conn";
-        public static ConfigurationManager Configuration { get; set; }
+            public static string DefaultConnection { get; } = "User_Db_Conn";
+            public static ConfigurationManager Configuration { get; set; }
 
 
-        public static void AddDomainContext(this IServiceCollection services, ConfigurationManager configuration)
-        {
-            Configuration = configuration;
-            services.AddDbContext<StoreDbContext>(options =>
+            public static void AddDomainContext(this IServiceCollection services, ConfigurationManager configuration)
             {
-                options.UseSqlServer(configuration.GetConnectionString(DefaultConnection));
-            });
-        }
+                Configuration = configuration;
+                services.AddDbContext<StoreDbContext>(options =>
+                {
+                    options.UseSqlServer(configuration.GetConnectionString(DefaultConnection));
+                });
+            }
     }
 }
